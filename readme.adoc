@@ -1,0 +1,27 @@
+# additional full text analyzers for Neo4j
+
+The graph database https://www.neo4j.com[Neo4j] does support fulltext indexing out of the box. Part of this is fine grained configuration of analzyers for each index. There's a good write up how to build your own custom analyzers.
+This project leverages couple of commonly used analyzers.
+
+## Installation
+
+The analyzers are supposed to work with Neo4j >= 3.4. Clone this repo and use https://www.maven.org[Maven] to build a jar file:
+
+[source,shell]
+----
+mvn package
+cp target/neo4j-additional-analyzers-<version>.jar <NEO4J_HOME>/plugins
+----
+
+and restart Neo4j.
+
+## Usage
+
+
+## Reference
+
+.List of analyzers in this project
+|===
+| analyzer name | description | configuration
+| `whitespace_lower` | same as standard `whitespace` analyzer, but does also a to lower conversion | n/a
+
