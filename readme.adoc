@@ -17,11 +17,17 @@ and restart Neo4j.
 
 ## Usage
 
+Set up a fulltext index and specificy the custom index:
 
-## Reference
+[source,cypher]
+----
+CALL db.index.fulltext.createNodeIndex("myindex", ["Articles"], ["abstract", "content"], {analyzers: "whitespace_lower"});
+----
 
-.List of analyzers in this project
-|===
-| analyzer name | description | configuration
-| `whitespace_lower` | same as standard `whitespace` analyzer, but does also a to lower conversion | n/a
+## Reference of available analzyers
+
+### whitespace_lower
+
+This analyzer combines the `whitespace` analyzer with German and English stopword lists and applies a toLower conversion as well.
+Due to usage of `whitespace` terms containing dashes, e.g. `PNAS-108` as gene symbol or technical terms like `x-270°C` are treated as one atomic term.
 
