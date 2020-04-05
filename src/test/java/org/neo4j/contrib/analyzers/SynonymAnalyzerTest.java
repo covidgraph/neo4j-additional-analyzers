@@ -1,7 +1,6 @@
 package org.neo4j.contrib.analyzers;
 
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.junit.Rule;
 import org.junit.Test;
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -13,9 +12,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.neo4j.contrib.analyzers.WhitespaceLowerAnalyzerProvider.ANALYZER_NAME;
+import static org.neo4j.contrib.analyzers.SynonymAnalyzerProvider.ANALYZER_NAME;
+import static org.neo4j.contrib.analyzers.SynonymAnalyzerProvider.DESCRIPTION;
 
-public class WhitespaceLowerTest {
+public class SynonymAnalyzerTest {
 
     @Rule
     public Neo4jRule neo4j = new Neo4jRule();
@@ -24,25 +24,23 @@ public class WhitespaceLowerTest {
     public void checkTokenStream() {
         AnalyzerProvider provider = AnalyzerProvider.getProviderByName(ANALYZER_NAME);
         assertNotNull(provider);
-        assertEquals(WhitespaceLowerAnalyzerProvider.DESCRIPTION, provider.description());
+        assertEquals(DESCRIPTION, provider.description());
         Analyzer analzyer = provider.createAnalyzer();
         assertThat(TestUtils.analyze("CAN Open Bus Logo", analzyer), contains("can", "open", "bus", "logo"));
         assertThat(TestUtils.analyze("_Modbus", analzyer), contains("_modbus"));
         assertThat(TestUtils.analyze("abc x-270°", analzyer), contains("abc", "x-270°"));
-
-        assertThat(TestUtils.analyze("There's a gene called PNAS-108", analzyer), contains("gene", "called", "pnas-108"));
-        assertThat(TestUtils.analyze("There's a gene called PNAS-108", new StandardAnalyzer()), contains("there's", "gene", "called", "pnas", "108"));
+        assertThat(TestUtils.analyze("cGK 1 is a gene symbol", analzyer), contains("cgk1", "gene", "symbol"));
     }
 
     @Test
     public void checkAnalyzerIsAvailable() {
-        TestUtils.checkForAnalyzer(neo4j.getGraphDatabaseService(), ANALYZER_NAME, WhitespaceLowerAnalyzerProvider.DESCRIPTION);
+        TestUtils.checkForAnalyzer(neo4j.getGraphDatabaseService(), ANALYZER_NAME, DESCRIPTION);
     }
 
     @Test
     public void checkSearchForTermContainingDash() {
         GraphDatabaseService db = neo4j.getGraphDatabaseService();
-        db.execute("CALL db.index.fulltext.createNodeIndex('myIndex', ['Article'], ['title'], {analyzer: 'whitespace_lower'})");
+        db.execute("CALL db.index.fulltext.createNodeIndex('myIndex', ['Article'], ['title'], {analyzer: 'synonym'})");
         db.execute( "CREATE (:Article{title:'abc x-270°'})");
 
         assertEquals(1, Iterators.count(db.execute("CALL db.index.fulltext.queryNodes('myIndex', 'x\\\\-270°') yield node, score return node.title as text, score")));

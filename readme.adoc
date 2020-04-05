@@ -22,6 +22,7 @@ Set up a fulltext index and specificy the custom index:
 [source,cypher]
 ----
 CALL db.index.fulltext.createNodeIndex("myindex", ["Articles"], ["abstract", "content"], {analyzers: "whitespace_lower"});
+CALL db.index.fulltext.createNodeIndex("myindex", ["Articles"], ["abstract", "content"], {analyzers: "synonym"});
 ----
 
 ## Reference of available analzyers
@@ -30,4 +31,8 @@ CALL db.index.fulltext.createNodeIndex("myindex", ["Articles"], ["abstract", "co
 
 This analyzer combines the `whitespace` analyzer with German and English stopword lists and applies a toLower conversion as well.
 Due to usage of `whitespace` terms containing dashes, e.g. `PNAS-108` as gene symbol or technical terms like `x-270°C` are treated as one atomic term.
+
+### synonym
+
+Synonym analyzer is aware of gene symbols containing whitespace, e.g. `cGK 1`. Those multi-word terms will be mapping to a single word alternative using Lucene's `SynonymFilterFactory`. Aside of this mapping, the `synonym` analyzer works exactly like `whitespace_lower`
 

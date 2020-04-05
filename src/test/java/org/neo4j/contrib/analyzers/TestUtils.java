@@ -15,6 +15,7 @@ import static org.junit.Assert.assertNotNull;
 
 public class TestUtils {
     static List<String> analyze(String text, Analyzer analyzer) {
+        System.out.println("analyzing: " + text);
         try {
             List<String> result = new ArrayList<String>();
             TokenStream tokenStream = analyzer.tokenStream("dummy", text);
@@ -22,6 +23,7 @@ public class TestUtils {
             tokenStream.reset();
             while (tokenStream.incrementToken()) {
                 result.add(attr.toString());
+                System.out.println("term: "  + attr.toString());
             }
             tokenStream.close();
             return result;
