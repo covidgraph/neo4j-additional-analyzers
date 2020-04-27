@@ -21,8 +21,8 @@ Set up a fulltext index and specificy the custom index:
 
 [source,cypher]
 ----
-CALL db.index.fulltext.createNodeIndex("myindex", ["Articles"], ["abstract", "content"], {analyzers: "whitespace_lower"});
-CALL db.index.fulltext.createNodeIndex("myindex", ["Articles"], ["abstract", "content"], {analyzers: "synonym"});
+CALL db.index.fulltext.createNodeIndex("myindex", ["Articles"], ["abstract", "content"], {analyzer: "whitespace_lower"});
+CALL db.index.fulltext.createNodeIndex("myindex", ["Articles"], ["abstract", "content"], {analyzer: "synonym"});
 ----
 
 ## Reference of available analzyers
