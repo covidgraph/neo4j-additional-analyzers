@@ -6,19 +6,19 @@ import org.apache.lucene.analysis.core.StopFilterFactory;
 import org.apache.lucene.analysis.core.WhitespaceTokenizerFactory;
 import org.apache.lucene.analysis.custom.CustomAnalyzer;
 import org.apache.lucene.analysis.synonym.SynonymFilterFactory;
-import org.neo4j.graphdb.index.fulltext.AnalyzerProvider;
-import org.neo4j.helpers.Service;
+import org.neo4j.annotations.service.ServiceProvider;
+import org.neo4j.graphdb.schema.AnalyzerProvider;
 
 import java.io.IOException;
 
-@Service.Implementation(AnalyzerProvider.class)
+@ServiceProvider
 public class SynonymAnalyzerProvider extends AnalyzerProvider {
 
     public static final String DESCRIPTION = "analyzer using synonyms";
     public static final String ANALYZER_NAME = "synonym";
 
     public SynonymAnalyzerProvider() {
-        super(ANALYZER_NAME, new String[0]);
+        super(ANALYZER_NAME);
     }
 
     public Analyzer createAnalyzer() {

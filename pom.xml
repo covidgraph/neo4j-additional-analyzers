@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.neo4j.contrib</groupId>
-    <artifactId>neo4j-additional-analyzers</artifactId>
+    <artifactId>neo4j-additional-analyzers-4.0</artifactId>
     <version>0.1</version>
     <build>
         <plugins>
@@ -13,15 +13,15 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>11</source>
+                    <target>11</target>
                 </configuration>
             </plugin>
         </plugins>
     </build>
 
     <properties>
-        <neo4j.version>3.5.14</neo4j.version>
+        <neo4j.version>4.0.4</neo4j.version>
     </properties>
 
     <dependencies>

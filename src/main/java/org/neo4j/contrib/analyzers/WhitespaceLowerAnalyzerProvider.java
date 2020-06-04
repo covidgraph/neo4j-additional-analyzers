@@ -5,19 +5,19 @@ import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
 import org.apache.lucene.analysis.core.StopFilterFactory;
 import org.apache.lucene.analysis.core.WhitespaceTokenizerFactory;
 import org.apache.lucene.analysis.custom.CustomAnalyzer;
-import org.neo4j.graphdb.index.fulltext.AnalyzerProvider;
-import org.neo4j.helpers.Service;
+import org.neo4j.annotations.service.ServiceProvider;
+import org.neo4j.graphdb.schema.AnalyzerProvider;
 
 import java.io.IOException;
 
-@Service.Implementation(AnalyzerProvider.class)
+@ServiceProvider
 public class WhitespaceLowerAnalyzerProvider extends AnalyzerProvider {
 
     public static final String DESCRIPTION = "same as whitespace analyzer, but additionally applies a lower case filter to all tokens";
     public static final String ANALYZER_NAME = "whitespace_lower";
 
     public WhitespaceLowerAnalyzerProvider() {
-        super(ANALYZER_NAME, new String[0]);
+        super(ANALYZER_NAME);
     }
 
     public Analyzer createAnalyzer() {
